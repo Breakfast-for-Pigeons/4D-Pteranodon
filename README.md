@@ -1,7 +1,8 @@
 # 4D Pteranodon
 Use Python and a Raspberry Pi to control an Innonex 4D Pteranodon. 
 
-[![Click for 4d_Pteranodon video](https://user-images.githubusercontent.com/13591438/27263304-061e23c2-542c-11e7-9e05-475ceb3b18b2.JPG)](https://www.dropbox.com/s/4z465zu4e93wi4f/4D_T_rex.AVI?dl=0)
+![4d_pteranodon](https://user-images.githubusercontent.com/13591438/36655512-b63895ee-1a88-11e8-9dc7-b820478f968c.JPG)
+
 
 ## Requirements:
   Innonex 4D Science Pteranodon from Amazing Toys Ltd.
@@ -34,6 +35,6 @@ ____________________________________
 
 3) Type "sudo ./4D_Pteranodon.py"
 
-![4d_t_rex_program](https://user-images.githubusercontent.com/13591438/27252709-97d69a40-532a-11e7-95e8-a27baaa768c3.png)
+![4d_pteranodon](https://user-images.githubusercontent.com/13591438/36655516-bcf241b4-1a88-11e8-829a-8e7564f28ab5.png)
 
 
