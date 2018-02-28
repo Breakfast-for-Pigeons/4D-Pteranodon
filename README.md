@@ -17,7 +17,7 @@ Use Python and a Raspberry Pi to control an Innonex 4D Pteranodon.
    * 8 male-to-female jumper wires (You can get by with only 6. I used 2 to extend the wires of the motor),
      battery holder (one that will hold 4 AA batteries),
   
-  *AA batteries (4)
+  AA batteries (4)
 
 ## Optional
   Frtizing application:
