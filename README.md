@@ -29,7 +29,7 @@ ____________________________________
 
 1) Connect the Rasberry Pi, Pteranodon motor, and electronics as shown in the image below. If you installed the Fritzing application, I included my 4D_Pteranodon.fzz file. Feel free to use it. NOTE: The image shows only 2 AA batteries. I actually used 4 AA batteries for this project.
 
-![4d_t_rex](https://user-images.githubusercontent.com/13591438/27252708-95ae04ba-532a-11e7-981d-740e9d38d3ed.png)
+![4d_pteranodon_2](https://user-images.githubusercontent.com/13591438/36799531-04ddd894-1c73-11e8-8b51-fc69ad316ad2.png
 
 2) Download the Zip file or clone this project with git.
 
