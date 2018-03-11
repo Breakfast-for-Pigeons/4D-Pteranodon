@@ -33,8 +33,8 @@ import os, sys
 
 pteranodon_motor = Motor(23, 24, True)
 pteranodon_motor_enable = OutputDevice(25)
-red_button = Button(2) 
-yellow_button = Button(17) 
+yellow_button = Button(17)
+red_button = Button(9) 
 
 ########################################################################
 #                           Initialize                                 #
@@ -115,9 +115,9 @@ def file_check():
 		exit()
 
 '''
-This function checks to see if the user has permission to read the
-necessary files. If so, the program will continue. If not, messages are
-printed out and the program will exit.
+The access_file_check function checks to see if the user has permission
+to read the necessary files. If so, the program will continue. If not, 
+messages are printed out to the screen and the program will exit.
 '''
 def access_file_check():
 	
@@ -200,7 +200,9 @@ def read_file(file_name):
 	return dino_facts
 	
 '''
-This function checks to see if the file is empty.
+This empty_file_check function checks to see if the file is empty. If it
+is, the program will print a message to the screen. If not, the program
+will continue.
 '''
 def empty_file_check(file_name):		
 	print("\033[1;37;40mIs the dinosaur_facts.txt file empty?...", end="")
@@ -213,7 +215,8 @@ def empty_file_check(file_name):
 		print("\033[1;32;40mNo\033[1;37;40m!")
 		
 '''
-This function will print out the program header to the screen.
+The print_header function will print out the program header to the 
+screen.
 '''
 def print_header():
 	print("\033[1;33;40m===========================================================================")
@@ -223,14 +226,14 @@ def print_header():
 	print("\033[1;33;40m  |__   _| |_| |  |  __/| ||  __/ | | (_| | | | | (_) | (_| | (_) | | | |  ")
 	print("\033[1;33;40m     |_| |____/   |_|    \__\___|_|  \__,_|_| |_|\___/ \__,_|\___/|_| |_|  ")
 	print("\033[1;33;40m                                                                           ")
-	print("\033[1;33;40m===========================================================================")
+	print("\033[1;33;40m===========================================================================\n")
                                                       
 
 '''
-The get_squawk function will randomly select one of the Pteranodon squawk
-files and return it and its file length to the main function.
+The get_squawk function will randomly select one of the Pteranodon 
+squawk sound files and return it and its file length to the main 
+function.
 '''
-
 def get_squawk():
 	
 	squawk1 = "Sounds/pteranodon1.mp3"
@@ -276,6 +279,13 @@ def activate_pteranodon(squawk, squawk_length):
 	pteranodon_motor_enable.off()          # Stops the motor
 
 '''
+The prompt_user_for_input function prompts a user to push a button.
+'''
+def prompt_user_for_input():
+	print("\033[1;37;40mPush the \033[1;33;40myellow button \033[1;37;40mto activate the \033[1;33;40mPteranodon\033[1;37;40m.")
+	print("\033[1;37;40mPush the \033[1;31;40mred button \033[1;37;40mor press Ctrl-C to \033[1;31;40mstop \033[1;37;40mthe program.\n")
+
+'''
 This function realeases the gpio pins.
 '''
 def release_gpio_pins():
@@ -283,12 +293,12 @@ def release_gpio_pins():
 	pteranodon_motor_enable.close()
 	red_button.close()
 	yellow_button.close()
+	
 '''
 This is the main fucntion. It will wait until one of two buttons is 
 pressed. One button will start the program and the other button will
 stop the program. Pressing Ctrl-C will also stop the program.
 '''
-
 def main():
 	try:
 		# Check to see that the necessary files exist
@@ -306,8 +316,7 @@ def main():
 		# Pre-load the first sound file
 		squawk, squawk_length = get_squawk()
 		# Prompt the user to press a button
-		print("\n\033[1;37;40mPush the \033[1;33;40myellow button \033[1;37;40mto activate the \033[1;33;40mPteranodon\033[1;37;40m.")
-		print("\033[1;37;40mPush the \033[1;31;40mred button \033[1;37;40mor press Ctrl-C to \033[1;31;40mstop \033[1;37;40mthe program.\n")
+		prompt_user_for_input()
 		
 		while True:
 			
@@ -317,14 +326,13 @@ def main():
 				print(random.choice(dino_facts))
 				# Move the T. rex for the duration of the sound file
 				activate_pteranodon(squawk, squawk_length)
-				# Prompt the user again to press a button
-				print("\n\033[1;37;40mPush the \033[1;33;40myellow button \033[1;37;40mto activate the \033[1;33;40mPteranodon\033[1;37;40m.")
-				print("\033[1;37;40mPush the \033[1;31;40mred button \033[1;37;40mor press Ctrl-C to \033[1;31;40mstop \033[1;37;40mthe program.\n")
+				# Prompt the user to press a button
+				prompt_user_for_input()
 				# Load the next sound file
 				squawk, squawk_length = get_squawk()
 				
 			if red_button.is_pressed:
-				print("\nExiting program.\n")
+				print("Exiting program.\n")
 				release_gpio_pins()
 				exit()
 				
