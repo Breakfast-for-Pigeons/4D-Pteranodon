@@ -1,18 +1,33 @@
 #!/usr/bin/python3
-'''
+"""
 4D Pteranodon
 
 Description:
 This program controls the motor of a toy Pteranodon. A button is
-pressed to make the Pteranodon move and squawk.
+pressed to make the Pteranodon squawk and flap its wings.
 
-This program is also an example of adding color to text displayed to
-the screen.
+....................
+
+Functions:
+- file_check: Checks to see if the necessary files exist
+- permission_check: Checks to see if the user has permission to read
+  the necessary files
+- read_file: Reads the dino_facts file
+- empty_file_check: Checks to see if the dino_facts list is empty
+- print_header: Prints a header
+- prompt_user_for_input: Prompts user to push a button
+- get_roar: Gets one random sound file
+- print_dinosaur_fact: Prints a random dinosaur fact
+- activate_t_rex: Starts the T. rex motor
+- release_gpio_pins: Realeases the GPIO pins.
+- stop_the_program: Stops the program
+
+....................
 
 Author: Paul Ryan
 
 This program was written on a Raspberry Pi using the Geany IDE.
-'''
+"""
 
 ########################################################################
 #                          Import modules                              #
@@ -29,10 +44,10 @@ import pygame
 #                           Variables                                  #
 ########################################################################
 
-pteranodon_motor = Motor(2, 3, True)            # forward, backward, pwm
-pteranodon_motor_enable = OutputDevice(4)
-yellow_button = Button(17)
-red_button = Button(9)
+PTERANODON_MOTOR = Motor(2, 3, True)            # forward, backward, pwm
+PTERANODON_MOTOR_ENABLE = OutputDevice(4)
+YELLOW_BUTTON = Button(17)
+RED_BUTTON = Button(9)
 
 ########################################################################
 #                           Initialize                                 #
@@ -40,7 +55,7 @@ red_button = Button(9)
 
 pygame.mixer.init()
 
-logging.basicConfig(filename='Files/Pteranodon.log', filemode='w',
+logging.basicConfig(filename='Files/pteranodon.log', filemode='w',
                     level=logging.INFO,
                     format='%(asctime)s %(levelname)s: %(message)s',
                     datefmt='%m/%d/%y %I:%M:%S %p:')
@@ -51,12 +66,12 @@ logging.basicConfig(filename='Files/Pteranodon.log', filemode='w',
 
 
 def main():
-    '''
+    """
     This is the main function. It will wait until one of two buttons is
     pressed. One button will activate the Pteranodon and the other
     button will stop the program. Pressing Ctrl-C will also stop the
     program.
-    '''
+    """
 
     try:
         logging.info("START")
@@ -79,7 +94,7 @@ def main():
 
         while True:
 
-            if yellow_button.is_pressed:
+            if YELLOW_BUTTON.is_pressed:
                 # Print out a random dinosaur fun fact
                 print_dinosaur_fact(dino_facts)
                 # Move the Pteranodon for the duration of the sound file
@@ -89,7 +104,7 @@ def main():
                 # Prompt the user to press a button
                 prompt_user_for_input()
 
-            if red_button.is_pressed:
+            if RED_BUTTON.is_pressed:
                 stop_the_program()
 
     except KeyboardInterrupt:
@@ -97,12 +112,14 @@ def main():
 
 
 def file_check():
-    '''
-    The file_check function checks to see if the necessary files exist.
+    """
+    Checks to see if the necessary files exist
+
+    This function checks to see if the necessary files exist.
     If they all exist, the program will continue.
     If a file is missing, the program will print out a message to the
     screen and then exit.
-    '''
+    """
 
     file_missing_flag = 0
 
@@ -131,12 +148,13 @@ def file_check():
 
 
 def permission_check():
-    '''
-    The permission_check function checks to see if the user has
-    permission to read the necessary files. If so, the program will
-    continue. If not, the program will print out a message to the screen
-    and then exit.
-    '''
+    """
+    Checks to see if the user has permission to read the necessary files
+
+    This function checks to see if the user has permission to read the
+    necessary files. If so, the program will continue. If not, the
+    program will print out a message to the screen and then exit.
+    """
 
     permission_flag = 0
 
@@ -172,14 +190,22 @@ def permission_check():
 
 
 def read_file(file_name):
-    '''
-    The read_file function has one parameter: file_name. In this
-    program, the argument passed in will be the dinosaur_facts.txt file
-    located in the 'Files' folder. Each line of the file will be an
-    element in the dino_facts list. It will then return the dino_facts
-    list to the main function. If the program is unable to populate the
-    list, it will display an error message and then exit the program.
-    '''
+    """
+    Reads the dino_facts file
+
+    This function reads the dino_facts file and populates a list. Each
+    line of the file will be an element in the dino_facts list. It will
+    then return the dino_facts list to the main function. If the program
+    is unable to populate the list, it will display an error message and
+    then exit the program.
+
+    Arguments:
+        file_name: The dinosaur_facts.txt file located in the 'Files'
+        folder.
+
+    Returns:
+        dino_facts: a list of dinosaur facts
+    """
 
     logging.info("READING DINOSAUR_FACTS.TXT")
     try:
@@ -196,13 +222,17 @@ def read_file(file_name):
 
 
 def empty_file_check(list_name):
-    '''
-    The empty_file_check function has one parameter: file_name. In this
-    program, the argument passed in will be the dino_facts list. It will
-    checks to see if the list is empty. If it is, the program will print
-    a message to the screen. If it is not empty, the program will
-    continue.
-    '''
+    """
+    Checks to see if the dino_facts list is empty
+
+    This function will check to see if the list is empty. If it is, the
+    program will print a message to the screen and then exit. If the
+    file is not empty, the program will continue.
+
+    Arguments:
+        list_name: the dino_facts list
+
+    """
 
     logging.info("EMPTY FILE CHECK")
     if list_name == []:
@@ -217,9 +247,13 @@ def empty_file_check(list_name):
 
 
 def print_header():
-    '''
-    The print_header function will print out the program header to the
+    """
+    Prints a header
+
+
+    This function will print out the program header to the
     screen.
+
     This is the only part of the program that doesn't adhere to the PEP
     standards (It exceeds recommended line length). I decided that
     "Readability Counts" and "Beautiful is better than ugly" from The
@@ -227,7 +261,7 @@ def print_header():
     rewritten it to meet the PEP standard, but is was ugly and
     unreadable. This is much better. The program still compiles and runs
     OK.
-    '''
+    """
 
     # The r prefix is to let Pylint know that it is a raw string.
     # It prevents the Pylint message "Anomolous backslash in string:
@@ -245,9 +279,11 @@ def print_header():
 
 
 def prompt_user_for_input():
-    '''
-    The prompt_user_for_input function prompts a user to push a button.
-    '''
+    """
+    Prompts user to push a button
+
+    This function prompts a user to push a button.
+    """
 
     # First line
     print("\033[1;37;40mPush the " +                 # print white text
@@ -263,11 +299,15 @@ def prompt_user_for_input():
 
 
 def get_squawk():
-    '''
-    The get_squawk function will randomly select one of the Pteranodon
-    squawk sound files and then return it and its file length to the main
-    function.
-    '''
+    """
+    Gets one random sound file
+
+    This function will randomly select one of the Pteranodon squawk
+    sound files.
+
+    Returns:
+        a sound file and the length of the file in seconds
+    """
 
     # The key/value pair is sound file name : length of file in seconds
     squawks = {'Sounds/Pteranodon1.ogg': 6.5, 'Sounds/Pteranodon2.ogg': 6.5,
@@ -277,28 +317,34 @@ def get_squawk():
 
 
 def print_dinosaur_fact(dino_facts):
-    '''
-    The print_dinosaur_fact function takes the dino_facts list as its
-    input. It will select a random fact and print it out.
-    '''
+    """
+    Prints a random dinosaur fact
+
+    This function will select a random fact from the dino_facts list and
+    print it out.
+
+    Arguments:
+        dino_facts: a list of dinosaur_facts
+    """
 
     print("\033[1;34;40mDINOSAUR FUN FACT:")
     print(random.choice(dino_facts))
 
 
 def activate_pteranodon(sound, sound_length):
-    '''
-    The activate_pteranodon function has two parameters: sound and sound
-    length.
-    "sound" is the name of a sound file and "sound_length" is the length
-    of the sound file in seconds. The arguments passed to this function
-    will be one of the randomly selected squawks and its length. This
-    function will play the sound file and activate the motor for the
-    duration of the sound file.
-    '''
+    """
+    Starts the Pteranodon motor
+
+    This function will play the sound file and activate the
+    Pteranodon motor for the duration of the sound file.
+
+    Arguments:
+        sound: The randomly selected Pteranodon sound file
+        sound_length: The length of the sound file in seconds
+    """
 
     try:
-        pteranodon_motor.value = 0.6       # Controls the motor speed
+        PTERANODON_MOTOR.value = 0.6       # Controls the motor speed
     except ValueError:
         logging.error("A bad value was specified for the pteranodon_" +
                       "motor. The value should be between 0 and 1.")
@@ -306,28 +352,30 @@ def activate_pteranodon(sound, sound_length):
               "'Files' folder for more information.\n")
         stop_the_program()
     pygame.mixer.music.load(sound)         # Loads the sound file
-    pteranodon_motor_enable.on()           # Starts the motor
+    PTERANODON_MOTOR_ENABLE.on()           # Starts the motor
     pygame.mixer.music.play()              # Plays the sound file
     sleep(sound_length)                    # Length of sound file in seconds
-    pteranodon_motor_enable.off()          # Stops the motor
+    PTERANODON_MOTOR_ENABLE.off()          # Stops the motor
 
 
 def release_gpio_pins():
-    '''
-    This function realeases the gpio pins.
-    '''
+    """
+    Realeases the GPIO pins.
+    """
 
-    pteranodon_motor.close()
-    pteranodon_motor_enable.close()
-    red_button.close()
-    yellow_button.close()
+    PTERANODON_MOTOR.close()
+    PTERANODON_MOTOR_ENABLE.close()
+    RED_BUTTON.close()
+    YELLOW_BUTTON.close()
 
 
 def stop_the_program():
-    '''
-    The stop_the_program function will call the release_gpio_pins function,
-    print a message to the screen, and then exit the program.
-    '''
+    """
+    Stops the program
+
+    This function will call the release_gpio_pins function, print a
+    message to the screen, and then exit the program.
+    """
 
     release_gpio_pins()
     print("\033[1;37;40mExiting program.\n")
